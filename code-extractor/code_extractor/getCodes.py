@@ -110,6 +110,7 @@ def digURL(url):
 
     number = int(re.sub(r"\D", "", title))
     dump_for_json = {}
+    dump_for_json["url"] = url
     dump_for_json["number"] = number
 
     time_format = "%Y-%m-%dT%H:%M:%S"
@@ -118,8 +119,10 @@ def digURL(url):
     dump_for_json["codes"] = {}
     for c in codes:
         dump_for_json["codes"][c[1]] = c[0]
-    with open(f'json/{number}.json', 'w') as f:
+    file_template = "json/{}.json"
+    with open(file_template.format(number), 'w') as f:
         json.dump(dump_for_json, f, indent=2, ensure_ascii=False)
+        print("make {}".format(file_template.format(number)))
 
     prev = obj[0].find_all('a')
     return digURL(prev[-1].text)
